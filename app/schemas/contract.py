@@ -30,7 +30,6 @@ class ContractDocument(ContractDocumentInDBBase):
 
 class ContractBase(BaseModel):
     client_id: int
-    number: str
     date_start: date
     date_end: date
     value: float
@@ -48,6 +47,7 @@ class ContractUpdate(ContractBase):
 
 class ContractInDBBase(ContractBase, MetaData):
     id: Optional[int] = None
+    number: Optional[str] = None
     documents: Optional[List[ContractDocument]] = None
 
     class Config:
@@ -55,6 +55,7 @@ class ContractInDBBase(ContractBase, MetaData):
 
 class ContractResume(ContractBase):
     id: int
+    number: str
     client: ClientResume
 
 class Contract(ContractInDBBase):

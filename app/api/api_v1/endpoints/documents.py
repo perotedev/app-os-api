@@ -24,7 +24,7 @@ def create_document(
     *,
     db: Session = Depends(deps.get_db),
     document_in: schemas.DocumentCreate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
     document = crud.document.create(db, obj_in=document_in)
     return document
@@ -35,7 +35,7 @@ def update_document(
     db: Session = Depends(deps.get_db),
     document_id: int,
     document_in: schemas.DocumentUpdate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
     document = crud.document.get(db, id=document_id)
     if not document:

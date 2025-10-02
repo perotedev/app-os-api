@@ -7,7 +7,6 @@ from typing import Dict, Any
 
 class DbUtils:
     def update_entity_fields(self,entity, update_data:dict):
-        # Update the entity's fields with the provided data
         for field, value in update_data.items():
             if not isinstance(value,Enum):
                 setattr(entity, field, value)

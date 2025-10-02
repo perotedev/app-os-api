@@ -1,7 +1,8 @@
 
 from typing import Any, Dict, Optional, Union, List
-
+from datetime import datetime, timezone
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from app.crud.base import CRUDBase
 from app.models.contract import Contract
@@ -12,6 +13,17 @@ class CRUDContract(CRUDBase[Contract, ContractCreate, ContractUpdate]):
     def create(self, db: Session, *, obj_in: ContractCreate) -> Contract:
         obj_in_data = obj_in.model_dump(exclude={"document_list"})
         db_obj = self.model(**obj_in_data)
+
+        current_year = f"{datetime.now(timezone.utc).year}"
+        last_number = (
+            db.query(func.max(self.model.number))
+            .filter(self.model.number.like(f"%/{current_year}"))
+            .scalar()
+        )
+        last_number = 0 if last_number is None else int(last_number.split("/")[0])
+        next_number = last_number + 1
+        contract_code = f"{next_number:03}/{current_year}"
+        db_obj.number = contract_code
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

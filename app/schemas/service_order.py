@@ -23,7 +23,7 @@ class ServiceOrderItemUpdate(ServiceOrderItemBase):
     service_type_id: Optional[int]
 
 class ServiceOrderItemInDBBase(ServiceOrderItemBase, MetaData):
-    id: Optional[int] = None
+    id: int
     service_order_id: Optional[int] = None
     service_type: ServiceTypeResume
 
@@ -60,7 +60,7 @@ class ServiceOrderBase(BaseModel):
     start_date: date
     end_date: Optional[date] = None
     status: Optional[ServiceOrderStatusEnum] = ServiceOrderStatusEnum.PENDING
-    location: Optional[str] = ""
+    location: Optional[str]
 
 class ServiceOrderCreate(ServiceOrderBase):
     items: Optional[List[ServiceOrderItemCreate]] = None

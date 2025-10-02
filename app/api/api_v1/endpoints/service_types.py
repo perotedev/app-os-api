@@ -23,7 +23,7 @@ def create_service_type(
     *,
     db: Session = Depends(deps.get_db),
     service_type_in: schemas.ServiceTypeCreate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
     service_type = crud.service_type.create(db, obj_in=service_type_in)
     return service_type
@@ -34,7 +34,7 @@ def update_service_type(
     db: Session = Depends(deps.get_db),
     service_type_id: int,
     service_type_in: schemas.ServiceTypeUpdate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
     service_type = crud.service_type.get(db, id=service_type_id)
     if not service_type:

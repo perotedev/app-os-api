@@ -31,6 +31,18 @@ class AddressInDBBase(AddressBase, MetaData):
     class Config:
         from_attributes = True
 
+class AddressInClient(BaseModel):
+    id: Optional[int] = None
+    street: Optional[str] = None
+    number: Optional[str] = None
+    neighborhood: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    cep: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
 class Address(AddressInDBBase):
     pass
 

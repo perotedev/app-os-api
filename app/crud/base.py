@@ -37,7 +37,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def get_multi_paginated(
         self, 
         db: Session, 
-        page_params: PageParams
+        page_params: PageParams,
     ) -> Dict[str, Any]:
         query = db.query(self.model)
         return db_utils.paginate(page_params, query)
@@ -61,7 +61,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])
-        db.add(db_obj)
+        # db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
         return db_obj

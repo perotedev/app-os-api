@@ -24,7 +24,7 @@ def create_service_order(
     *,
     db: Session = Depends(deps.get_db),
     service_order_in: schemas.ServiceOrderCreate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
 
     service_order = crud.service_order.create(db, obj_in=service_order_in)
@@ -36,7 +36,7 @@ def update_service_order(
     db: Session = Depends(deps.get_db),
     service_order_id: int,
     service_order_in: schemas.ServiceOrderUpdate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
 
     service_order = crud.service_order.get(db, id=service_order_id)
@@ -77,8 +77,22 @@ def create_service_order_item(
     *,
     db: Session = Depends(deps.get_db),
     service_order_item_in: schemas.ServiceOrderItemCreate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
 
-    service_order = crud.service_order_item.create(db, obj_in=service_order_item_in)
-    return service_order
+    so_item = crud.service_order_item.create(db, obj_in=service_order_item_in)
+    return so_item
+
+@router.put("/item/{item_id}", response_model=schemas.ServiceOrderItem)
+def create_service_order_item(
+    *,
+    item_id: int,
+    db: Session = Depends(deps.get_db),
+    service_order_item_in: schemas.ServiceOrderItemUpdate,
+    current_user: schemas.User = Depends(deps.get_current_active_user),
+) -> Any:
+    so_item = crud.service_order_item.get(db, id=item_id)
+    if not so_item:
+        raise HTTPException(status_code=404, detail="Service order item not found")
+    so_item = crud.service_order_item.update(db, db_obj=so_item, obj_in=service_order_item_in)
+    return so_item

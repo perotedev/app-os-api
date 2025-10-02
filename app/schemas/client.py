@@ -1,28 +1,28 @@
 
-from typing import Optional, List
+from typing import Optional
 
 from pydantic import BaseModel, EmailStr
 
 from app.schemas.base import MetaData
-from app.schemas.address import Address
+from app.schemas.address import AddressInClient
 
 class ClientBase(BaseModel):
     name: str
-    email: Optional[EmailStr] = None
+    email: Optional[str] = None
     phone: Optional[str] = None
     cnpj: Optional[str] = None
 
 class ClientCreate(ClientBase):
-    address: Address
+    address: AddressInClient
 
 class ClientUpdate(ClientBase):
     name: Optional[str] = None
-    address: Optional[Address] = None
+    address: Optional[AddressInClient] = None
 
 class ClientInDBBase(ClientBase, MetaData):
     id: Optional[int] = None
     address_id: Optional[int] = None
-    address: Optional[Address] = None
+    address: Optional[AddressInClient] = None
 
     class Config:
         from_attributes = True

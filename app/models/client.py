@@ -9,9 +9,9 @@ class Client(Base, BaseModel):
     __tablename__ = 'client'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    email = Column(String, unique=True, index=True, nullable=True)
+    email = Column(String, unique=True, nullable=True)
     phone = Column(String, nullable=True)
-    cnpj = Column(String, unique=True, index=True, nullable=True)
+    cnpj = Column(String, unique=True, nullable=True)
     address_id = Column(Integer, ForeignKey("address.id"), nullable=False)
 
     address = relationship("Address", back_populates="clients")

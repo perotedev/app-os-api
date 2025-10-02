@@ -18,12 +18,12 @@ def read_contracts(
     contracts = crud.contract.get_multi_paginated(db, page_params)
     return contracts
 
-@router.post("/", response_model=schemas.Contract)
+@router.post("/", response_model=schemas.ContractResume)
 def create_contract(
     *,
     db: Session = Depends(deps.get_db),
     contract_in: schemas.ContractCreate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
     contract = crud.contract.create(db, obj_in=contract_in)
     return contract
@@ -34,7 +34,7 @@ def update_contract(
     db: Session = Depends(deps.get_db),
     contract_id: int,
     contract_in: schemas.ContractUpdate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
     contract = crud.contract.get(db, id=contract_id)
     if not contract:

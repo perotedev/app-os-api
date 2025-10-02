@@ -24,7 +24,7 @@ def create_client(
     *,
     db: Session = Depends(deps.get_db),
     client_in: schemas.ClientCreate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
     client = crud.client.create(db, obj_in=client_in)
     return client
@@ -35,7 +35,7 @@ def update_client(
     db: Session = Depends(deps.get_db),
     client_id: int,
     client_in: schemas.ClientUpdate,
-    current_user: schemas.User = Depends(deps.get_current_active_admin),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
     client = crud.client.get(db, id=client_id)
     if not client:
