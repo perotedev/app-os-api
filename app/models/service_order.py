@@ -7,6 +7,7 @@ from app.models.base_model import Base as BaseModel
 from app.models.enums import ServiceOrderStatusEnum
 
 class ServiceOrder(Base, BaseModel):
+    __tablename__ = 'service_order'
     id = Column(Integer, primary_key=True, index=True)
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
     service_type_id = Column(Integer, ForeignKey("service_type.id"), nullable=False)

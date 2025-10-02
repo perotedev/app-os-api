@@ -6,6 +6,7 @@ from app.db.base import Base
 from app.models.base_model import Base as BaseModel
 
 class Contract(Base, BaseModel):
+    __tablename__ = 'contract'
     id = Column(Integer, primary_key=True, index=True)
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
     number = Column(String, unique=True, index=True, nullable=False)
@@ -15,4 +16,5 @@ class Contract(Base, BaseModel):
 
     client = relationship("Client", back_populates="contracts")
     documents = relationship("ContractDocument", back_populates="contract")
+    service_orders = relationship("ServiceOrder", back_populates="contract")
 

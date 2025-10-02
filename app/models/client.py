@@ -6,6 +6,7 @@ from app.db.base import Base
 from app.models.base_model import Base as BaseModel
 
 class Client(Base, BaseModel):
+    __tablename__ = 'client'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=True)
@@ -15,4 +16,5 @@ class Client(Base, BaseModel):
 
     address = relationship("Address", back_populates="clients")
     contracts = relationship("Contract", back_populates="client")
+    service_orders = relationship("ServiceOrder", back_populates="client")
 

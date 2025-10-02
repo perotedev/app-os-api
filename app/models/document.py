@@ -6,6 +6,7 @@ from app.db.base import Base
 from app.models.base_model import Base as BaseModel
 
 class Document(Base, BaseModel):
+    __tablename__ = 'document'
     id = Column(Integer, primary_key=True, index=True)
     filename = Column(String, nullable=False)
     file_path = Column(String, nullable=False)

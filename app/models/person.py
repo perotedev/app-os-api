@@ -6,6 +6,7 @@ from app.db.base import Base
 from app.models.base_model import Base as BaseModel
 
 class Person(Base, BaseModel):
+    __tablename__ = 'person'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     phone = Column(String, nullable=True)

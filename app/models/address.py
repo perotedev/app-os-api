@@ -6,6 +6,7 @@ from app.db.base import Base
 from app.models.base_model import Base as BaseModel
 
 class Address(Base, BaseModel):
+    __tablename__ = 'address'
     id = Column(Integer, primary_key=True, index=True)
     street = Column(String, nullable=False)
     number = Column(String, nullable=False)
