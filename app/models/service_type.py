@@ -12,5 +12,5 @@ class ServiceType(Base, BaseModel):
     description = Column(String, nullable=True)
     icon = Column(String, nullable=False)
 
-    service_orders = relationship("ServiceOrder", back_populates="service_type")
+    items = relationship("ServiceOrderItem", back_populates="service_type")
 

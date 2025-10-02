@@ -7,6 +7,7 @@ from app.schemas.base import MetaData
 
 class ServiceTypeBase(BaseModel):
     name: str
+    icon: str
     description: Optional[str] = None
 
 class ServiceTypeCreate(ServiceTypeBase):
@@ -21,6 +22,11 @@ class ServiceTypeInDBBase(ServiceTypeBase, MetaData):
 
     class Config:
         from_attributes = True
+
+class ServiceTypeResume(BaseModel):
+    name: str
+    icon: str
+
 
 class ServiceType(ServiceTypeInDBBase):
     pass

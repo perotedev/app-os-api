@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 from app.schemas.base import MetaData
 from app.schemas.document import Document
+from app.schemas.client import ClientResume
 
 class ContractDocumentBase(BaseModel):
     document_id: int
@@ -51,6 +52,10 @@ class ContractInDBBase(ContractBase, MetaData):
 
     class Config:
         from_attributes = True
+
+class ContractResume(ContractBase):
+    id: int
+    client: ClientResume
 
 class Contract(ContractInDBBase):
     pass

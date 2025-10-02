@@ -7,6 +7,7 @@ from app.schemas.base import MetaData
 
 class UserConfigBase(BaseModel):
     theme: Optional[str] = "light"
+    expanded: Optional[bool] = True
     notifications_enabled: Optional[bool] = True
 
 class UserConfigCreate(UserConfigBase):

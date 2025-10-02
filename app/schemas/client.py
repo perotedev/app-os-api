@@ -27,6 +27,9 @@ class ClientInDBBase(ClientBase, MetaData):
     class Config:
         from_attributes = True
 
+class ClientResume(BaseModel):
+    name: str
+
 class Client(ClientInDBBase):
     pass
 

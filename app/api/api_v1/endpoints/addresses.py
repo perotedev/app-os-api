@@ -16,9 +16,6 @@ def read_addresses(
     limit: int = 100,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Retrieve addresses.
-    """
     addresses = crud.address.get_multi(db, skip=skip, limit=limit)
     return addresses
 
@@ -29,9 +26,6 @@ def create_address(
     address_in: schemas.AddressCreate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Create new address.
-    """
     address = crud.address.create(db, obj_in=address_in)
     return address
 
@@ -43,9 +37,6 @@ def update_address(
     address_in: schemas.AddressUpdate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Update an address.
-    """
     address = crud.address.get(db, id=address_id)
     if not address:
         raise HTTPException(status_code=404, detail="Address not found")
@@ -59,9 +50,6 @@ def read_address_by_id(
     address_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Get a specific address by ID.
-    """
     address = crud.address.get(db, id=address_id)
     if not address:
         raise HTTPException(status_code=404, detail="Address not found")
@@ -74,9 +62,6 @@ def delete_address(
     address_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Delete an address.
-    """
     address = crud.address.get(db, id=address_id)
     if not address:
         raise HTTPException(status_code=404, detail="Address not found")

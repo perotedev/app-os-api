@@ -16,9 +16,6 @@ def read_documents(
     limit: int = 100,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Retrieve documents.
-    """
     documents = crud.document.get_multi(db, skip=skip, limit=limit)
     return documents
 
@@ -29,9 +26,6 @@ def create_document(
     document_in: schemas.DocumentCreate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Create new document.
-    """
     document = crud.document.create(db, obj_in=document_in)
     return document
 
@@ -43,9 +37,6 @@ def update_document(
     document_in: schemas.DocumentUpdate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Update a document.
-    """
     document = crud.document.get(db, id=document_id)
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
@@ -59,9 +50,6 @@ def read_document_by_id(
     document_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Get a specific document by ID.
-    """
     document = crud.document.get(db, id=document_id)
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
@@ -74,9 +62,6 @@ def delete_document(
     document_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Delete a document.
-    """
     document = crud.document.get(db, id=document_id)
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")

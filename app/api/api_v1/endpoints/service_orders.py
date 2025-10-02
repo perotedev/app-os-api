@@ -6,20 +6,17 @@ from sqlalchemy.orm import Session
 
 from app import crud, schemas
 from app.api import deps
+from app.schemas.base import PageParams, PaginationResponse
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.ServiceOrder])
+@router.get("/", response_model=PaginationResponse[schemas.ServiceOrderResume])
 def read_service_orders(
+    page_params: PageParams = Depends(),
     db: Session = Depends(deps.get_db),
-    skip: int = 0,
-    limit: int = 100,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Retrieve service orders.
-    """
-    service_orders = crud.service_order.get_multi(db, skip=skip, limit=limit)
+    service_orders = crud.service_order.get_multi_paginated(db, page_params)
     return service_orders
 
 @router.post("/", response_model=schemas.ServiceOrder)

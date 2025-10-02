@@ -35,6 +35,14 @@ class UserInDBBase(UserBase, MetaData):
 class User(UserInDBBase):
     pass
 
+class UserResume(UserBase):
+    id: int
+    person_id: int
+    person: Person
+
+    class Config:
+        from_attributes = True
+
 class UserInDB(UserInDBBase):
     hashed_password: str
 

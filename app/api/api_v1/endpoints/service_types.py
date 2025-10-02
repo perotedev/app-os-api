@@ -1,24 +1,21 @@
-from typing import Any, List
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
 from app.api import deps
+from app.schemas.base import PageParams, PaginationResponse
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.ServiceType])
+@router.get("/", response_model=PaginationResponse[schemas.ServiceType])
 def read_service_types(
+    page_params: PageParams = Depends(),
     db: Session = Depends(deps.get_db),
-    skip: int = 0,
-    limit: int = 100,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Retrieve service types.
-    """
-    service_types = crud.service_type.get_multi(db, skip=skip, limit=limit)
+    service_types = crud.service_type.get_multi_paginated(db, page_params)
     return service_types
 
 @router.post("/", response_model=schemas.ServiceType)
@@ -28,9 +25,6 @@ def create_service_type(
     service_type_in: schemas.ServiceTypeCreate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Create new service type.
-    """
     service_type = crud.service_type.create(db, obj_in=service_type_in)
     return service_type
 
@@ -42,9 +36,6 @@ def update_service_type(
     service_type_in: schemas.ServiceTypeUpdate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Update a service type.
-    """
     service_type = crud.service_type.get(db, id=service_type_id)
     if not service_type:
         raise HTTPException(status_code=404, detail="Service type not found")
@@ -58,9 +49,6 @@ def read_service_type_by_id(
     service_type_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Get a specific service type by ID.
-    """
     service_type = crud.service_type.get(db, id=service_type_id)
     if not service_type:
         raise HTTPException(status_code=404, detail="Service type not found")
@@ -73,9 +61,6 @@ def delete_service_type(
     service_type_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Delete a service type.
-    """
     service_type = crud.service_type.get(db, id=service_type_id)
     if not service_type:
         raise HTTPException(status_code=404, detail="Service type not found")

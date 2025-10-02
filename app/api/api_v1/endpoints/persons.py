@@ -16,9 +16,6 @@ def read_persons(
     limit: int = 100,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Retrieve persons.
-    """
     persons = crud.person.get_multi(db, skip=skip, limit=limit)
     return persons
 
@@ -29,9 +26,6 @@ def create_person(
     person_in: schemas.PersonCreate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Create new person.
-    """
     person = crud.person.create(db, obj_in=person_in)
     return person
 
@@ -43,9 +37,6 @@ def update_person(
     person_in: schemas.PersonUpdate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Update a person.
-    """
     person = crud.person.get(db, id=person_id)
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")
@@ -59,9 +50,6 @@ def read_person_by_id(
     person_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Get a specific person by ID.
-    """
     person = crud.person.get(db, id=person_id)
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")
@@ -74,9 +62,6 @@ def delete_person(
     person_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Delete a person.
-    """
     person = crud.person.get(db, id=person_id)
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")

@@ -1,25 +1,22 @@
 
-from typing import Any, List
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
 from app.api import deps
+from app.schemas.base import PageParams, PaginationResponse
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.User])
+@router.get("/", response_model=PaginationResponse[schemas.UserResume])
 def read_users(
+    page_params: PageParams = Depends(),
     db: Session = Depends(deps.get_db),
-    skip: int = 0,
-    limit: int = 100,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Retrieve users.
-    """
-    users = crud.user.get_multi(db, skip=skip, limit=limit)
+    users = crud.user.get_multi_paginated(db, page_params)
     return users
 
 @router.post("/", response_model=schemas.User)
@@ -29,9 +26,6 @@ def create_user(
     user_in: schemas.UserCreate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Create new user.
-    """
     user = crud.user.get_by_email(db, email=user_in.email)
     if user:
         raise HTTPException(
@@ -54,9 +48,6 @@ def update_user(
     user_in: schemas.UserUpdate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Update a user.
-    """
     user = crud.user.get(db, id=user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -72,9 +63,6 @@ def read_user_by_id(
     user_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Get a specific user by ID.
-    """
     user = crud.user.get(db, id=user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -87,12 +75,22 @@ def delete_user(
     user_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Delete a user.
-    """
     user = crud.user.get(db, id=user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     user = crud.user.remove(db, id=user_id)
     return user
 
+@router.put("/user-config/{config_id}", response_model=schemas.UserConfig)
+def update_user_config(
+    *,
+    db: Session = Depends(deps.get_db),
+    config_id: int,
+    user_config: schemas.UserConfigUpdate,
+    current_user: schemas.User = Depends(deps.get_current_active_user),
+) -> Any:
+    current_config = crud.user_config.get(db, id=config_id)
+    if not user_config:
+        raise HTTPException(status_code=404, detail="User config not found")
+    current_config = crud.user.update(db, db_obj=current_config, obj_in=user_config)
+    return current_config

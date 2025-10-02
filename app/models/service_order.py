@@ -10,7 +10,6 @@ class ServiceOrder(Base, BaseModel):
     __tablename__ = 'service_order'
     id = Column(Integer, primary_key=True, index=True)
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
-    service_type_id = Column(Integer, ForeignKey("service_type.id"), nullable=False)
     contract_id = Column(Integer, ForeignKey("contract.id"), nullable=True)
     description = Column(String, nullable=False)
     start_date = Column(Date, nullable=False)
@@ -19,7 +18,6 @@ class ServiceOrder(Base, BaseModel):
     total_value = Column(Float, default=0.0)
 
     client = relationship("Client", back_populates="service_orders")
-    service_type = relationship("ServiceType", back_populates="service_orders")
     contract = relationship("Contract", back_populates="service_orders")
     items = relationship("ServiceOrderItem", back_populates="service_order")
     documents = relationship("ServiceOrderDocument", back_populates="service_order")
