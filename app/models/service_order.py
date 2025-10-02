@@ -15,7 +15,7 @@ class ServiceOrder(Base, BaseModel):
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=True)
     status = Column(Enum(ServiceOrderStatusEnum), default=ServiceOrderStatusEnum.PENDING, nullable=False)
-    total_value = Column(Float, default=0.0)
+    location = Column(String, nullable=True, default="")
 
     client = relationship("Client", back_populates="service_orders")
     contract = relationship("Contract", back_populates="service_orders")

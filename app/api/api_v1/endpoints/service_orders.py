@@ -26,9 +26,7 @@ def create_service_order(
     service_order_in: schemas.ServiceOrderCreate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Create new service order.
-    """
+
     service_order = crud.service_order.create(db, obj_in=service_order_in)
     return service_order
 
@@ -40,9 +38,7 @@ def update_service_order(
     service_order_in: schemas.ServiceOrderUpdate,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Update a service order.
-    """
+
     service_order = crud.service_order.get(db, id=service_order_id)
     if not service_order:
         raise HTTPException(status_code=404, detail="Service order not found")
@@ -56,9 +52,7 @@ def read_service_order_by_id(
     service_order_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """
-    Get a specific service order by ID.
-    """
+
     service_order = crud.service_order.get(db, id=service_order_id)
     if not service_order:
         raise HTTPException(status_code=404, detail="Service order not found")
@@ -71,12 +65,20 @@ def delete_service_order(
     service_order_id: int,
     current_user: schemas.User = Depends(deps.get_current_active_admin),
 ) -> Any:
-    """
-    Delete a service order.
-    """
+
     service_order = crud.service_order.get(db, id=service_order_id)
     if not service_order:
         raise HTTPException(status_code=404, detail="Service order not found")
     service_order = crud.service_order.remove(db, id=service_order_id)
     return service_order
 
+@router.post("/item", response_model=schemas.ServiceOrderItem)
+def create_service_order_item(
+    *,
+    db: Session = Depends(deps.get_db),
+    service_order_item_in: schemas.ServiceOrderItemCreate,
+    current_user: schemas.User = Depends(deps.get_current_active_admin),
+) -> Any:
+
+    service_order = crud.service_order_item.create(db, obj_in=service_order_item_in)
+    return service_order

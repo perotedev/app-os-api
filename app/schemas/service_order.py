@@ -60,6 +60,7 @@ class ServiceOrderBase(BaseModel):
     start_date: date
     end_date: Optional[date] = None
     status: Optional[ServiceOrderStatusEnum] = ServiceOrderStatusEnum.PENDING
+    location: Optional[str] = ""
 
 class ServiceOrderCreate(ServiceOrderBase):
     items: Optional[List[ServiceOrderItemCreate]] = None
@@ -72,7 +73,6 @@ class ServiceOrderUpdate(ServiceOrderBase):
     start_date: Optional[date] = None
     end_date: Optional[date] = None
     status: Optional[ServiceOrderStatusEnum] = None
-    total_value: Optional[float] = None
     items: Optional[List[ServiceOrderItemUpdate]] = None
     documents: Optional[List[ServiceOrderDocumentUpdate]] = None
 
