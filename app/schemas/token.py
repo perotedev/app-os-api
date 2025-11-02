@@ -12,7 +12,7 @@ class UserResume(BaseModel):
     person: PersonBase
     active: bool
     role: RoleEnum
-    userConfig: UserConfig
+    user_config: UserConfig
 
     class Config:
         from_attributes = True

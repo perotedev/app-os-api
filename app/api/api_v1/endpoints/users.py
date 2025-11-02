@@ -32,15 +32,26 @@ def create_user(
             status_code=400,
             detail="The user with this username already exists in the system.",
         )
-    # First create the person
-    person = crud.person.create(db, obj_in=user_in.person)
-    # Then create the user, linking to the person
     user = crud.user.create(db, obj_in=user_in)
-    # Create default user config
-    crud.user_config.create(db, obj_in=schemas.UserConfigCreate(user_id=user.id))
     return user
 
-@router.put("/{user_id}", response_model=schemas.User)
+@router.post("/without_pass", response_model=schemas.UserResume)
+def create_user_without_pass(
+    *,
+    db: Session = Depends(deps.get_db),
+    user_in: schemas.UserCreateNoPass,
+    current_user: schemas.User = Depends(deps.get_current_active_admin),
+) -> Any:
+    user = crud.user.get_by_email(db, email=user_in.email)
+    if user:
+        raise HTTPException(
+            status_code=400,
+            detail="The user with this username already exists in the system.",
+        )
+    user = crud.user.create_user_without_pass(db, obj_in=user_in)
+    return user
+
+@router.put("/{user_id}", response_model=schemas.UserResume)
 def update_user(
     *,
     db: Session = Depends(deps.get_db),

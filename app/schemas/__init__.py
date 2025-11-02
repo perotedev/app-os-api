@@ -1,6 +1,6 @@
 from app.schemas.base import BaseModel, PageParams, PaginationResponse
 from app.schemas.address import Address, AddressBase, AddressCreate, AddressInDBBase, AddressUpdate
-from app.schemas.user import User, UserBase, UserCreate, UserInDB, UserInDBBase, UserUpdate, UserResume
+from app.schemas.user import User, UserBase, UserCreate, UserInDB, UserInDBBase, UserUpdate, UserResume, UserCreateNoPass
 from app.schemas.client import Client, ClientBase, ClientCreate, ClientInDBBase, ClientUpdate, ClientResume
 from app.schemas.contract import Contract, ContractBase, ContractCreate, ContractDocument, ContractDocumentBase, ContractDocumentCreate, ContractDocumentInDBBase, ContractDocumentUpdate, ContractInDBBase, ContractUpdate, ContractResume
 from app.schemas.document import Document, DocumentBase, DocumentCreate, DocumentInDBBase, DocumentUpdate, MetaData

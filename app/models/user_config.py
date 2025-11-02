@@ -12,5 +12,5 @@ class UserConfig(Base, BaseModel):
     theme = Column(String, default="light")
     notifications_enabled = Column(Boolean, default=True)
 
-    user = relationship("User", back_populates="userConfig")
+    user = relationship("User", back_populates="user_config")
 

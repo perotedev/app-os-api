@@ -5,13 +5,14 @@ from pydantic import BaseModel, EmailStr
 
 from app.schemas.base import MetaData
 from app.schemas.enums import RoleEnum
-from app.schemas.person import Person
+from app.schemas.person import Person, PersonCreate
 from app.schemas.user_config import UserConfig
 
 class UserBase(BaseModel):
     email: EmailStr
     active: Optional[bool] = True
     role: Optional[RoleEnum] = RoleEnum.USER
+    person: PersonCreate
 
 class UserCreate(UserBase):
     password: str
@@ -23,11 +24,14 @@ class UserUpdate(UserBase):
     person: Optional[Person] = None
     role: Optional[RoleEnum] = None
 
+class UserCreateNoPass(UserUpdate):
+    person: PersonCreate
+
 class UserInDBBase(UserBase, MetaData):
     id: Optional[int] = None
     person_id: Optional[int] = None
     person: Optional[Person] = None
-    userConfig: Optional[UserConfig] = None
+    user_config: Optional[UserConfig] = None
 
     class Config:
         from_attributes = True

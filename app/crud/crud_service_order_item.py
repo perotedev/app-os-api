@@ -1,4 +1,3 @@
-from sqlalchemy.orm import Session
 
 from app.crud.base import CRUDBase
 from app.models.service_order_item import ServiceOrderItem
