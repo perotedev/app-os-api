@@ -1,6 +1,4 @@
 
-from sqlalchemy.orm import Session
-
 from app.crud.base import CRUDBase
 from app.models.service_order_document import ServiceOrderDocument
 from app.schemas.service_order import ServiceOrderDocumentCreate, ServiceOrderDocumentUpdate

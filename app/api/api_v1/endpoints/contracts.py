@@ -28,7 +28,7 @@ def create_contract(
     contract = crud.contract.create(db, obj_in=contract_in)
     return contract
 
-@router.put("/{contract_id}", response_model=schemas.Contract)
+@router.put("/{contract_id}", response_model=schemas.ContractResume)
 def update_contract(
     *,
     db: Session = Depends(deps.get_db),
