@@ -33,12 +33,23 @@ class ServiceOrderItemInDBBase(ServiceOrderItemBase, MetaData):
 class ServiceOrderItem(ServiceOrderItemInDBBase):
     pass
 
+class ServiceOrderItemDocumentBase(BaseModel):
+    service_order_item_id: int
+    position: Optional[str]
+    document_id: int
+
+class ServiceOrderItemDocument(ServiceOrderItemDocumentBase):
+    id: int
+    document: Optional[Document] = None
+
+    class Config:
+        from_attributes = True
+
 class ServiceOrderItemResume(ServiceOrderItemBase):
     id: int
     service_order_id: Optional[int] = None
     service_type: Optional[ServiceTypeResume] = None
-    document_id: Optional[int] = None
-    documents: Optional[List[Document]] = None
+    documents: List[ServiceOrderItemDocument]
 
     class Config:
         from_attributes = True
@@ -55,7 +66,7 @@ class ServiceOrderDocumentUpdate(ServiceOrderDocumentBase):
 class ServiceOrderDocumentInDBBase(ServiceOrderDocumentBase, MetaData):
     id: Optional[int] = None
     service_order_id: Optional[int] = None
-    documents: Optional[List[Document]] = None
+    documents: Optional[Document] = None
 
     class Config:
         from_attributes = True
@@ -101,6 +112,9 @@ class ServiceOrderResume(ServiceOrderBase, MetaData):
 
 class ServiceOrder(ServiceOrderInDBBase):
     pass
+
+class ServiceOrderWithItems(ServiceOrder):
+    items: List[ServiceOrderItemResume]
 
 class UpdateServiceOrderItemStatus(BaseModel):
     status: ServiceOrderStatusEnum

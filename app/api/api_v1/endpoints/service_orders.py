@@ -45,7 +45,7 @@ def update_service_order(
     service_order = crud.service_order.update(db, db_obj=service_order, obj_in=service_order_in)
     return service_order
 
-@router.get("/{service_order_id:int}", response_model=schemas.ServiceOrder)
+@router.get("/{service_order_id:int}", response_model=schemas.ServiceOrderWithItems)
 def read_service_order_by_id(
     *,
     db: Session = Depends(deps.get_db),
@@ -111,7 +111,7 @@ def update_service_order_item_status(
     so_item = crud.service_order_item.update_status(db, so_item_in=data)
     return so_item
 
-@router.post("/item/{item_id:int}/document", response_model=schemas.ServiceOrderItemResume)
+@router.post("/item/{item_id:int}/document", response_model=schemas.ServiceOrderItemDocument)
 def attach_document_to_service_order_item(
     *,
     item_id: int,

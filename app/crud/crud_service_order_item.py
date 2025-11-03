@@ -28,7 +28,7 @@ class CRUDServiceOrderItem(CRUDBase[ServiceOrderItem, ServiceOrderItemCreate, Se
         db.refresh(service_order_item)
         return service_order_item
     
-    async def attach_document(
+    def attach_document(
         self,
         db,
         *,
@@ -49,7 +49,7 @@ class CRUDServiceOrderItem(CRUDBase[ServiceOrderItem, ServiceOrderItemCreate, Se
         dest_path = base_upload_dir / unique_name
 
         with open(dest_path, "wb") as out_file:
-            await shutil.copyfileobj(file.file, out_file)
+            shutil.copyfileobj(file.file, out_file)
         file_path = str(dest_path.resolve())
 
         if not file_path:
