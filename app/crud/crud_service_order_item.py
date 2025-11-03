@@ -57,7 +57,7 @@ class CRUDServiceOrderItem(CRUDBase[ServiceOrderItem, ServiceOrderItemCreate, Se
 
         new_document = Document(
             filename = file.filename,
-            file_path = "so_items" / str(service_order_item_id) / unique_name,
+            file_path = f"so_items/{str(service_order_item_id)}/{unique_name}",
             file_type = file.content_type,
             size = file.size
         )
