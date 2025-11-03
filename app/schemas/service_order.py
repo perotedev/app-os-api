@@ -38,7 +38,7 @@ class ServiceOrderItemResume(ServiceOrderItemBase):
     service_order_id: Optional[int] = None
     service_type: Optional[ServiceTypeResume] = None
     document_id: Optional[int] = None
-    document: Optional[Document] = None
+    documents: Optional[List[Document]] = None
 
     class Config:
         from_attributes = True
@@ -55,7 +55,7 @@ class ServiceOrderDocumentUpdate(ServiceOrderDocumentBase):
 class ServiceOrderDocumentInDBBase(ServiceOrderDocumentBase, MetaData):
     id: Optional[int] = None
     service_order_id: Optional[int] = None
-    document: Optional[Document] = None
+    documents: Optional[List[Document]] = None
 
     class Config:
         from_attributes = True
