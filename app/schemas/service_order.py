@@ -1,6 +1,6 @@
 from typing import Optional, List
 from datetime import date
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from app.schemas.base import MetaData
 from app.schemas.enums import ServiceOrderStatusEnum
 from app.schemas.document import Document
@@ -113,7 +113,21 @@ class ServiceOrder(ServiceOrderInDBBase):
 
 class ServiceOrderWithItems(ServiceOrder):
     status: ServiceOrderStatusEnum
-    items: List[ServiceOrderItemResume]
+    items: List[ServiceOrderItemResume] = []
+
+    @validator('items', pre=True, always=True)
+    def sort_items_by_id(cls, value):
+        if not value:
+            return []
+        try:
+            return sorted(
+                value,
+                key=lambda item: (
+                    item.get('id') if isinstance(item, dict) else getattr(item, 'id', 0)
+                ) or 0
+            )
+        except Exception:
+            return value
 
 class UpdateServiceOrderItemStatus(BaseModel):
     status: ServiceOrderStatusEnum
