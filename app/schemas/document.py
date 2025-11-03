@@ -8,6 +8,7 @@ class DocumentBase(BaseModel):
     filename: str
     file_path: str
     file_type: str
+    size: Optional[int] = None
 
 class DocumentCreate(DocumentBase):
     pass

@@ -66,7 +66,7 @@ class ServiceOrderDocumentUpdate(ServiceOrderDocumentBase):
 class ServiceOrderDocumentInDBBase(ServiceOrderDocumentBase, MetaData):
     id: Optional[int] = None
     service_order_id: Optional[int] = None
-    documents: Optional[Document] = None
+    document: Optional[Document] = None
 
     class Config:
         from_attributes = True
