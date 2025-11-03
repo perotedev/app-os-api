@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from app.models.enums import ServiceOrderStatusEnum
 
 from app.db.base import Base
+from app.models.enums import DocumentSOPositionEnum
 from app.models.base_model import Base as BaseModel
 
 class ServiceOrderItem(Base, BaseModel):
@@ -23,6 +24,7 @@ class ServiceOrderItemDocument(Base, BaseModel):
     __tablename__ = 'service_order_item_document'
     id = Column(Integer, primary_key=True, index=True)
     service_order_item_id =  Column(Integer, ForeignKey("service_order_item.id"), nullable=False)
+    position = Column(Enum(DocumentSOPositionEnum), default=DocumentSOPositionEnum.BEFORE, nullable=False)
     document_id = Column(Integer, ForeignKey("document.id"), nullable=False)
     document = relationship("Document")
     service_order_item = relationship("ServiceOrderItem", back_populates="documents")

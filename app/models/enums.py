@@ -11,3 +11,7 @@ class ServiceOrderStatusEnum(str, enum.Enum):
     FINISHED = "FINISHED"
     CANCELED = "CANCELED"
 
+class DocumentSOPositionEnum(str, enum.Enum):
+    BEFORE = "BEFORE"
+    AFTER = "AFTER"
+
