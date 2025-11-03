@@ -33,6 +33,16 @@ class ServiceOrderItemInDBBase(ServiceOrderItemBase, MetaData):
 class ServiceOrderItem(ServiceOrderItemInDBBase):
     pass
 
+class ServiceOrderItemResume(ServiceOrderItemBase):
+    id: int
+    service_order_id: Optional[int] = None
+    service_type: Optional[ServiceTypeResume] = None
+    document_id: Optional[int] = None
+    document: Optional[Document] = None
+
+    class Config:
+        from_attributes = True
+
 class ServiceOrderDocumentBase(BaseModel):
     document_id: int
 
@@ -91,3 +101,7 @@ class ServiceOrderResume(ServiceOrderBase, MetaData):
 
 class ServiceOrder(ServiceOrderInDBBase):
     pass
+
+class UpdateServiceOrderItemStatus(BaseModel):
+    status: ServiceOrderStatusEnum
+    service_order_item_id: int

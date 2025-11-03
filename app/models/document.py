@@ -11,6 +11,7 @@ class Document(Base, BaseModel):
     filename = Column(String, nullable=False)
     file_path = Column(String, nullable=False)
     file_type = Column(String, nullable=False)
+    size = Column(Integer, nullable=True)
 
     contract_documents = relationship("ContractDocument", back_populates="document")
     service_order_documents = relationship("ServiceOrderDocument", back_populates="document")

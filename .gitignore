@@ -8,8 +8,7 @@ info.txt
 
 fotos/
 tmp_files/
-documentos/
-log_android/
+documents/
 rootSSL.*
 .vscode/
 .venv/
@@ -17,4 +16,3 @@ rootSSL.*
 script_data/
 postgres
 postgres/*
-taurus_backend/

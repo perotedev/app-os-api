@@ -1,7 +1,7 @@
 
-from typing import Any, List
-
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Any
+from app.schemas.enums import DocumentSOPositionEnum
+from fastapi import APIRouter, Depends, HTTPException, Form, UploadFile
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
@@ -30,7 +30,7 @@ def create_service_order(
     service_order = crud.service_order.create(db, obj_in=service_order_in)
     return service_order
 
-@router.put("/{service_order_id}", response_model=schemas.ServiceOrder)
+@router.put("/{service_order_id:int}", response_model=schemas.ServiceOrder)
 def update_service_order(
     *,
     db: Session = Depends(deps.get_db),
@@ -45,7 +45,7 @@ def update_service_order(
     service_order = crud.service_order.update(db, db_obj=service_order, obj_in=service_order_in)
     return service_order
 
-@router.get("/{service_order_id}", response_model=schemas.ServiceOrder)
+@router.get("/{service_order_id:int}", response_model=schemas.ServiceOrder)
 def read_service_order_by_id(
     *,
     db: Session = Depends(deps.get_db),
@@ -58,7 +58,7 @@ def read_service_order_by_id(
         raise HTTPException(status_code=404, detail="Service order not found")
     return service_order
 
-@router.delete("/{service_order_id}", response_model=schemas.ServiceOrder)
+@router.delete("/{service_order_id:int}", response_model=schemas.ServiceOrder)
 def delete_service_order(
     *,
     db: Session = Depends(deps.get_db),
@@ -83,7 +83,7 @@ def create_service_order_item(
     so_item = crud.service_order_item.create(db, obj_in=service_order_item_in)
     return so_item
 
-@router.put("/item/{item_id}", response_model=schemas.ServiceOrderItem)
+@router.put("/item/{item_id:int}", response_model=schemas.ServiceOrderItem)
 def create_service_order_item(
     *,
     item_id: int,
@@ -96,3 +96,38 @@ def create_service_order_item(
         raise HTTPException(status_code=404, detail="Service order item not found")
     so_item = crud.service_order_item.update(db, db_obj=so_item, obj_in=service_order_item_in)
     return so_item
+
+@router.put("/item/{item_id:int}/status", response_model=schemas.ServiceOrderItemResume)
+def update_service_order_item_status(
+    *,
+    item_id: int,
+    db: Session = Depends(deps.get_db),
+    data: schemas.UpdateServiceOrderItemStatus,
+    current_user: schemas.User = Depends(deps.get_current_active_user),
+) -> Any:
+    if (item_id != data.service_order_item_id):
+        raise HTTPException(status_code=400, detail="Item ID mismatch")
+    
+    so_item = crud.service_order_item.update_status(db, so_item_in=data)
+    return so_item
+
+@router.post("/item/{item_id:int}/document", response_model=schemas.ServiceOrderItemResume)
+def attach_document_to_service_order_item(
+    *,
+    item_id: int,
+    file: UploadFile = Form(...),
+    position: DocumentSOPositionEnum = Form(...),
+    db: Session = Depends(deps.get_db),
+    current_user: schemas.User = Depends(deps.get_current_active_user),
+) -> Any:
+    so_item = crud.service_order_item.get(db, id=item_id)
+    if not so_item:
+        raise HTTPException(status_code=404, detail="Service order item not found")
+    
+    so_item_doc = crud.service_order_item.attach_document(
+        db,
+        service_order_item_id=item_id,
+        file=file,
+        position=position,
+    )
+    return so_item_doc
