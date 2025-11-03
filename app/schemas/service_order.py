@@ -112,6 +112,7 @@ class ServiceOrder(ServiceOrderInDBBase):
     pass
 
 class ServiceOrderWithItems(ServiceOrder):
+    status: ServiceOrderStatusEnum
     items: List[ServiceOrderItemResume]
 
 class UpdateServiceOrderItemStatus(BaseModel):

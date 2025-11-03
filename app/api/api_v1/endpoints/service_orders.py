@@ -72,7 +72,7 @@ def delete_service_order(
     service_order = crud.service_order.remove(db, id=service_order_id)
     return service_order
 
-@router.post("/item", response_model=schemas.ServiceOrderItem)
+@router.post("/item", response_model=schemas.ServiceOrderItemResume)
 def create_service_order_item(
     *,
     db: Session = Depends(deps.get_db),
@@ -83,7 +83,7 @@ def create_service_order_item(
     so_item = crud.service_order_item.create(db, obj_in=service_order_item_in)
     return so_item
 
-@router.put("/item/{item_id:int}", response_model=schemas.ServiceOrderItem)
+@router.put("/item/{item_id:int}", response_model=schemas.ServiceOrderItemResume)
 def create_service_order_item(
     *,
     item_id: int,
