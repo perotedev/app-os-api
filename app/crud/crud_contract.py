@@ -41,12 +41,13 @@ class CRUDContract(CRUDBase[Contract, ContractCreate, ContractUpdate]):
             update_data = obj_in
         else:
             update_data = obj_in.model_dump(exclude_unset=True)
-        
-        # Handle nested document_list update if needed
-        # For simplicity, this example doesn't handle complex nested updates for lists
-        # A more robust solution would involve comparing existing documents and adding/removing as necessary
 
         return super().update(db, db_obj=db_obj, obj_in=update_data)
+
+    def get_contracts_by_client(
+        self, db: Session, *, client_id: int
+    ) -> List[Contract]:
+        return db.query(self.model).filter(self.model.client_id == client_id).all()
 
 contract = CRUDContract(Contract)
 

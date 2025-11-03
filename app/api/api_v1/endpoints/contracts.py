@@ -18,6 +18,16 @@ def read_contracts(
     contracts = crud.contract.get_multi_paginated(db, page_params)
     return contracts
 
+@router.get("/by_client/{client_id}", response_model=List[schemas.ContractResume])
+def read_contracts_by_client(
+    *,
+    db: Session = Depends(deps.get_db),
+    client_id: int,
+    current_user: schemas.User = Depends(deps.get_current_active_user),
+) -> Any:
+    contracts = crud.contract.get_contracts_by_client(db, client_id=client_id)
+    return contracts
+
 @router.post("/", response_model=schemas.ContractResume)
 def create_contract(
     *,
