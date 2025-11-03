@@ -80,12 +80,10 @@ class ServiceOrderBase(BaseModel):
     description: str
     start_date: date
     end_date: Optional[date] = None
-    status: Optional[ServiceOrderStatusEnum] = ServiceOrderStatusEnum.PENDING
     location: Optional[str]
 
 class ServiceOrderCreate(ServiceOrderBase):
     items: Optional[List[ServiceOrderItemCreate]] = None
-    documents: Optional[List[ServiceOrderDocumentCreate]] = None
 
 class ServiceOrderUpdate(ServiceOrderBase):
     client_id: Optional[int] = None
