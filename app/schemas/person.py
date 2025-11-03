@@ -10,7 +10,7 @@ class PersonBase(BaseModel):
     name: str
     phone: Optional[str] = None
     cpf: Optional[str] = None
-    birth: date # Assuming birth is a date string in ISO format
+    birth: date
 
 class PersonCreate(PersonBase):
     pass

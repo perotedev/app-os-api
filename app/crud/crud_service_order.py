@@ -35,9 +35,6 @@ class CRUDServiceOrder(CRUDBase[ServiceOrder, ServiceOrderCreate, ServiceOrderUp
             update_data = obj_in
         else:
             update_data = obj_in.model_dump(exclude_unset=True)
-        
-        # Handle nested items and documents update if needed
-        # For simplicity, this example doesn't handle complex nested updates for lists
 
         return super().update(db, db_obj=db_obj, obj_in=update_data)
 
