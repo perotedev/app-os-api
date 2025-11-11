@@ -107,6 +107,7 @@ class ServiceOrderInDBBase(ServiceOrderBase, MetaData):
 class ServiceOrderResume(ServiceOrderBase, MetaData):
     id: int
     client: ClientResume
+    status: ServiceOrderStatusEnum
 
 class ServiceOrder(ServiceOrderInDBBase):
     pass
